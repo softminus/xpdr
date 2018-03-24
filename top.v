@@ -7,19 +7,26 @@ module top (crystal, dac_zero, dac_one);
     output reg [5:0] dac_one = 0;
     
     reg clk_en = 1;
-    reg [7:0] pi = 1;
+    reg [7:0] pi = 3;
+    reg [7:0] pi_two = 13;
 
     icepll chip_pll(crystal, pll_clock);
 
-    wire [4:0] sinout;
-    wire [4:0] cosout;
-    wire [5:0] debug_out;
+    wire [4:0] rfi;
+    wire [4:0] rfq;
+    wire [4:0] loi;
+    wire [4:0] loq;
 
-    nco nco_under_test(pll_clock, clk_en, pi, sinout, cosout, debug_out);
+    reg [9:0] tmpi;
+    reg [9:0] tmpq;
+
+    nco lo_nco(pll_clock, clk_en, pi, loi, loq);
+    nco rf_nco(pll_clock, clk_en, pi_two, rfi, rfq);
+    complex_mixer mix(pll_clock, clk_en, rfi, rfq, loi, loq, tmpi, tmpq);
 
     always @(posedge pll_clock) begin
-        dac_zero <= $signed(sinout)+32;
-        dac_one <=  $signed(cosout)+32;
+        dac_one <=  $signed(tmpq[9:5])+32;
+        dac_zero <= $signed(rfq) + 32;
     end
 endmodule
 

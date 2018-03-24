@@ -1,10 +1,9 @@
 `default_nettype none
-module nco (clock, clk_en, phase_increment, sine_bits, cosine_bits, debug_pulse);
+module nco (clock, clk_en, phase_increment, sine_bits, cosine_bits);
     /* I/O */
     output reg [4:0] sine_bits;
     output reg [4:0] cosine_bits;
 
-    output reg [5:0] debug_pulse = 0;
 
     input wire clk_en;
 
@@ -20,6 +19,7 @@ module nco (clock, clk_en, phase_increment, sine_bits, cosine_bits, debug_pulse)
     reg [1:0] flip_cos;
     reg [4:0] sin_reg;
     reg [4:0] cos_reg;
+
 
     reg [4:0] quarter_wave [0:63];
     initial $readmemh("qwave_6i_4o.hex",quarter_wave);
@@ -72,8 +72,6 @@ module nco (clock, clk_en, phase_increment, sine_bits, cosine_bits, debug_pulse)
             end else begin
                 cosine_bits <= cos_reg;
             end
-
-
 
 
 

@@ -5,7 +5,7 @@ DEVICE    = 8k
 FOOTPRINT = ct256
 
 # Files
-LINTABLE_FILES = nco.v lms6_tx.v
+LINTABLE_FILES = nco.v lms6_tx.v complex_mixer.v
 FILES = $(LINTABLE_FILES) top.v icepll.v 
 .PHONY: all clean burn
 
@@ -26,6 +26,7 @@ burn:
 lint:
 	verilator -Wall --lint-only nco.v
 	verilator -Wall --lint-only lms6_tx.v
+	verilator -Wall --lint-only complex_mixer.v
 
 sim:
 	verilator -Wall --cc --trace nco.v --exe tb-nco.cc
