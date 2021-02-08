@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name egg-rescue)(type Legacy)(uri ${KIPRJMOD}/egg-rescue.lib)(options "")(descr ""))
+)
